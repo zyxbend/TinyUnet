@@ -7,7 +7,7 @@ This repository is organized as:
 
 - [dataloaders](/datasets/) contains the dataloader for different datasets
 - [modeling](/modeling/) contains a model zoo for network models
-- [model](/model/) contains pretrained models for network models
+- [models](/models/) contains pretrained models for network models
 - [scripts](/scripts/) coontains scripts for preparing data
 - [utils](/utils/) contains api for training and processing data
 - [test_em.py](/test_em.py) test student/teacher model on  the em datasets
