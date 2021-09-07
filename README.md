@@ -5,74 +5,62 @@ The code repository of ChinaMM2021 paper TinyUnet:结合多层特征及空间信
 # Structure of this repository
 This repository is organized as:
 
-- [datasets](/datasets/) contains the dataloader for different datasets
-- [networks](/networks/) contains a model zoo for network models
+- [dataloaders](/datasets/) contains the dataloader for different datasets
+- [modeling](/networks/) contains a model zoo for network models
 - [scripts](/networks/) coontains scripts for preparing data
 - [utils](/networks/) contains api for training and processing data
-- [train.py](/train.py) train a single model
-- [train_kd.py](/train_kd.py) train with KD
-
+- [test_em.py](/test_em.py) test student/teacher model on  the em datasets
+- [test_nih.py](/test_nih.py) test student/teacher model on  the nih datasets
+- [test_tooth.py](/test_tooth.py) this dataset is private,so can't offer the related code
 # Usage Guide
 
 ## Requirements
 
  All the codes are tested in the following environment:
 
-- pytorch 1.8.0
-- pytorch-lightning >= 1.3.7
+- pytorch 1.6.0
 - OpenCV
-- nibabel
+- natsort
+- tqdm
 
 ## Dataset Preparation
 
-### KiTS
-Download data [here](https://github.com/neheller/kits19)
+### EM datasets
+The ISBI challenge for segmentation of neuronal structures in Electron Microscopic (EM)
+Download data [here](https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.1000502)
 
 Please follow the instructions and the data/ directory should then be structured as follows
 ```
-data
-├── case_00000
-|   ├── imaging.nii.gz
-|   └── segmentation.nii.gz
-├── case_00001
-|   ├── imaging.nii.gz
-|   └── segmentation.nii.gz
+em_challenge
+├── data
+|   ├── 0.PNG
+|   └── 1.PNG
 ...
-├── case_00209
-|   ├── imaging.nii.gz
-|   └── segmentation.nii.gz
-└── kits.json
-```
-Cut 3D data into slices using ```scripts/SliceMaker.py``` 
+├── mask
+|   ├── 0.PNG
+|   └── 1.PNG
+...
+├── val_img
+|   ├── 78.PNG
+|   └── 79.PNG
+...
+├── val_mask
+|   ├── 78.PNG
+|   └── 79.PNG
+...
 
-```
-python scripts/SliceMaker.py --inpath /data/kits19/data --outpath /data/kits/train --dataset kits --task tumor
-```
 
-### LiTS
-Similar to KiTS but you may make some adjustments in running ```scripts/SliceMaker.py``` 
+### NIH datasets
+Similar to EM .
 
 ## Running
-### Training Teacher Model
-Before knowledge distillation, a well-trained teacher model is required. ```/train.py``` is used to trained a single model without KD(either a teacher model or a student model). 
+### Test Teacher/Student Model
+After knowledge distillation, a well-trained teacher model is required.
 
-[RAUNet](https://github.com/nizhenliang/RAUNet) is recommended to be the teacher model.
+[UNet](https://github.com/nizhenliang/RAUNet) is chosen to be our teacher model.
 
 ```
 python train.py --model raunet --checkpoint_path /data/checkpoints
 ```
 
-After training, the checkpoints will be stored in ```/data/checkpoints``` as assigned.
 
-If you want to try different models, use ```--model``` with following choices
-```
-'deeplabv3+', 'enet', 'erfnet', 'espnet', 'mobilenetv2', 'unet++', 'raunet', 'resnet18', 'unet', 'pspnet'
-```
-### Training With Knowledge Distillation 
-For example, use enet as student model
-
-```
-python train_kd.py --tckpt /data/checkpoints/name_of_teacher_checkpoint.ckpt --smodel enet
-```
-
-```--tckpt``` refers to the path of teacher model checkpoint. And you can change student model by revising ```--smodel```
