@@ -77,7 +77,7 @@ class Tester(object):
         self.train_loader, self.val_loader, self.test_loader = make_data_loader(args, **kwargs)
 
         model = UNet(1, 1, 64, sync_bn=False)
-        # model = Deep_Wise_UNet(1, 1, 32, sync_bn=False)
+
         input = torch.randn(1, 1, 320, 640)
         flops, params = profile(model, inputs=(input,))
         flops, params = clever_format([flops, params], "%.3f")
@@ -134,7 +134,6 @@ class Tester(object):
             with torch.no_grad():
                 output = self.model(image)
             tbar.set_description('Test loss: %.3f' % (test_loss / (i + 1)))
-            # pred = output.data.cpu().numpy()
             pred = output
 
             toimage = transforms.ToPILImage()
@@ -146,7 +145,7 @@ class Tester(object):
             mask_write = toimage(target.cpu().squeeze(0)).resize((200, 200))
             mask_write = np.array(mask_write)
             each_dice = self.evaluator.dice_loss(pred, target)
-            # print("each_dice",each_dice)
+ 
             dice += each_dice
 
             gt_img = target.cpu().numpy()[0][0]
@@ -254,12 +253,10 @@ def main():
     # default settings for epochs, batch_size and lr
     if args.epochs is None:
         epoches = {
-            'coco': 30,
-            'cityscapes': 200,
-            'pascal': 50,
+
             'nih_dataset': 1,
             'em_dataset':1,
-            'tooth': 90
+            'tooth': 1
         }
         args.epochs = epoches[args.dataset.lower()]
 
@@ -271,9 +268,7 @@ def main():
 
     if args.lr is None:
         lrs = {
-            'coco': 0.1,
-            'cityscapes': 0.01,
-            'pascal': 0.007,
+     
             'nih_dataset': 0.01,
             'em_dataset': 0.03,
             'tooth': 0.035
