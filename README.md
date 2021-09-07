@@ -60,7 +60,7 @@ After knowledge distillation, a well-trained teacher model is required.
 [UNet](https://github.com/nizhenliang/RAUNet) is chosen to be our teacher model.
 
 ```
-python train.py --model raunet --checkpoint_path /data/checkpoints
+python -u /path/test_Tooth.py -dataset em_dataset -eval_interval 1 -no_val False
 ```
 
 
