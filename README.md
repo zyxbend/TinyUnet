@@ -8,8 +8,7 @@ This repository is organized as:
 - [dataloaders](/datasets/) contains the dataloader for different datasets
 - [modeling](/modeling/) contains a model zoo for network models
 - [models](/models/) contains pretrained models for network models
-- [scripts](/scripts/) coontains scripts for preparing data
-- [utils](/utils/) contains api for training and processing data
+- [utils](/utils/) contains api for  processing data
 - [test_em.py](/test_em.py) test student/teacher model on  the em datasets
 - [test_nih.py](/test_nih.py) test student/teacher model on  the nih datasets
 - [test_tooth.py](/test_tooth.py) this dataset is private,so can't offer the related code
