@@ -62,5 +62,8 @@ After knowledge distillation, a well-trained teacher model is required.
 ```
 python -u /path/test_Tooth.py -dataset em_dataset -eval_interval 1 -no_val False
 ```
-
+If you want to try different datasets, use --dataset with following choices
+```
+'em_dataset','nih_dataset','tooth'
+```
 
