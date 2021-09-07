@@ -51,7 +51,7 @@ em_challenge
 ```
 
 ### NIH datasets
-Similar to EM .
+Similar to EM dataset.
 
 ## Running
 ### Test Teacher/Student Model
